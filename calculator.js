@@ -2,21 +2,13 @@
 const prompt = require('prompt');
 
 //start the prompt
-
-let calc = true
-
 //collect two numbers (num1 and num2) and an operation
 //then call the function `calculator` with the results
 
 // while calc = true keep calculating calc false quit
+prompt.start();
 
-do {
-  prompt.start();
-
-  prompt.get(['num1','num2','operation'], calculator)
-  prompt.get('Another calcuation? y/n', keepCalculating)
-} while (calc);
-
+prompt.get(['num1','num2','operation'], calculator)
 
 function calculator(error, result) {
   if (result.operation == 'add' || result.operation == '+') {
@@ -38,11 +30,13 @@ function calculator(error, result) {
   } else {
     console.log('null');
   }
-}
 
-function keepCalculating(bool) {
-  if (bool === 'n') {
-      calc = false;
-  }
-  return false
+  prompt.get('done', function keepCalculating(error, result) {
+    if (result.done == 'y') {
+      console.log('Goodbye!');
+      return;
+    } else {
+      prompt.get(['num1','num2','operation'], calculator)
+    }
+  })
 }
